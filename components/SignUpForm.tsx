@@ -170,6 +170,9 @@ function SignUpForm({handleSignUpWithEmail, isLoading, signupError}: SignUpFormP
                     {/* Captcha */}
                     <div id="clerk-captcha" className="hidden"></div>
 
+                    {/* Gap before button */}
+                    <div className="pt-2"></div>
+
                     {/* Sign Up Button */}
                     <button
                         type="button"

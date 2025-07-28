@@ -5,11 +5,12 @@ import { useSignUp } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import SignUpForm from "@/components/SignUpForm";
 import VerifyForm from "@/components/VerifyForm";
+import { validateEmail } from "@/utils/validateEmail";
 import { UserSignUpData } from "@/types";
 
 
 
-function SigninPage() {
+function SignupPage() {
 
     const router = useRouter();
     const { isLoaded, setActive, signUp } = useSignUp();
@@ -18,13 +19,6 @@ function SigninPage() {
     const [verifying, setVerifying] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [error , setError] = useState<string>("");
-
-
-    // Email validation function
-    const validateEmail = (emailAddress: string) => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(emailAddress);
-    };
 
 
     const handleSignUpWithEmail = async (
@@ -166,4 +160,4 @@ function SigninPage() {
 
 
 
-export default SigninPage
+export default SignupPage
