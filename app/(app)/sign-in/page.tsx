@@ -8,6 +8,7 @@ import BottomGradient from "@/components/BottomGradient";
 import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
 import { validateEmail } from "@/utils/validateEmail";
 import Link from "next/link";
+import CenterLayout from "@/components/CenterLayout";
 
 
 
@@ -91,7 +92,8 @@ function SigninPage() {
 
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black flex items-center justify-center p-4">
+        <CenterLayout>
+        <div className="flex items-center justify-center min-h-full">
             <div className="w-full max-w-lg">
                 {/* Main Signup Card with Fixed Height */}
                 <div className="bg-gray-900 bg-opacity-50 backdrop-blur-sm rounded-2xl border border-gray-800 p-8 shadow-2xl">
@@ -205,6 +207,7 @@ function SigninPage() {
                 </div>
             </div>
         </div>
+        </CenterLayout>
     )
 }
 

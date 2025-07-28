@@ -7,7 +7,6 @@ import { Home as HomeIcon, Share2, Upload } from "lucide-react";
 
 function Home() {
     return (
-        
         <div className="text-center">
             <h2 className="text-3xl font-bold text-white mb-4">Welcome to VideoHub</h2>
             <p className="text-gray-400 text-lg mb-8">
