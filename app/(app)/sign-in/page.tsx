@@ -8,7 +8,6 @@ import BottomGradient from "@/components/BottomGradient";
 import { isClerkAPIResponseError } from "@clerk/nextjs/errors";
 import { validateEmail } from "@/utils/validateEmail";
 import Link from "next/link";
-import CenterLayout from "@/components/CenterLayout";
 
 
 
@@ -92,8 +91,7 @@ function SigninPage() {
 
 
     return (
-        <CenterLayout>
-        <div className="flex items-center justify-center min-h-full">
+        <div className="flex items-center justify-center">
             <div className="w-full max-w-lg">
                 {/* Main Signup Card with Fixed Height */}
                 <div className="bg-gray-900 bg-opacity-50 backdrop-blur-sm rounded-2xl border border-gray-800 p-8 shadow-2xl">
@@ -171,10 +169,7 @@ function SigninPage() {
                         </div>
 
                         {/* Captcha */}
-                        <div id="clerk-captcha" className="hidden"></div>
-
-                        {/* Gap before button */}
-                        <div className="pt-2"></div>
+                        <div id="clerk-captcha"></div>
 
                         {/* Sign Up Button */}
                         <button
@@ -207,7 +202,6 @@ function SigninPage() {
                 </div>
             </div>
         </div>
-        </CenterLayout>
     )
 }
 

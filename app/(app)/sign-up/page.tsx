@@ -136,7 +136,7 @@ function SignupPage() {
 
 
     return (
-        <div className="flex items-center justify-center min-h-full">
+        <div className="flex items-center justify-center">
             {!verifying ?
                 (
                     <SignUpForm 
