@@ -40,10 +40,10 @@ const Header = ({ user, onLogout }: HeaderProps) => {
                     <div className="flex-shrink-0">
                         <div className="flex items-center">
                             <div className="w-10 h-10 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-lg flex items-center justify-center">
-                                <span className="text-white font-bold text-xl">V</span>
+                                <span className="text-white font-bold text-xl">D</span>
                             </div>
                             <div className="ml-3">
-                                <h1 className="text-xl font-bold text-white">MediaMorph</h1>
+                                <h1 className="text-xl font-bold text-white">Droply</h1>
                             </div>
                         </div>
                     </div>

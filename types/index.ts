@@ -1,6 +1,3 @@
-import { LucideIcon } from "lucide-react";
-
-
 
 export interface UserSignUpData {
   firstName: string;
@@ -11,9 +8,9 @@ export interface UserSignUpData {
 
 
 export interface UserProfile {
-  name: string;
-  firstName: string;
-  lastName: string;
-  emailAddress: string;
-  avatar: string;
+  name: string | undefined;
+  firstName: string | undefined;
+  lastName: string | undefined;
+  emailAddress: string | undefined;
+  avatar: string | undefined;
 }

@@ -14,11 +14,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     const { signOut } = useClerk();
 
     const [userData, setUserData] = useState<UserProfile>({
-        name: "",
-        firstName: "",
-        lastName: "",
-        emailAddress: "",
-        avatar: "",
+        name: undefined,
+        firstName: undefined,
+        lastName: undefined,
+        emailAddress: undefined,
+        avatar: undefined,
     });
 
     const pathname = usePathname();
@@ -32,19 +32,30 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
     const handleLogout = async () => {
         await signOut({ redirectUrl: "/sign-in" });
+
+        setUserData({
+            name: undefined,
+            firstName: undefined,
+            lastName: undefined,
+            emailAddress: undefined,
+            avatar: undefined,
+        })
     };
 
 
     useEffect(() => {
-        if (user) {
+        if (user && isSignedIn) {
             setUserData({
-                name: user.fullName || `${user.firstName} ${user.lastName}` || "User",
-                firstName: user.firstName || "",
-                lastName: user.lastName || "",
+                name: user?.fullName || `${user.firstName} ${user.lastName}` || "User",
+                firstName: user?.firstName || "",
+                lastName: user?.lastName || "",
                 emailAddress: user?.primaryEmailAddress?.emailAddress || "",
-                avatar: user.imageUrl || "https://unsplash.com/photos/a-yellow-sign-with-a-smiley-face-on-it-P4RcBNbRl60",
+                avatar: user?.imageUrl || "https://unsplash.com/photos/a-yellow-sign-with-a-smiley-face-on-it-P4RcBNbRl60",
             })
         }
+
+        console.log("User : ", user);
+        console.log("Is Signed In : ", isSignedIn);
     }, [user, isLoaded, isSignedIn]);
     
 
@@ -62,19 +73,21 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             />
 
             <main className="relative flex-1">
-                {shouldCenter ? (
-                    // Centered layout for auth pages
-                    <div className="flex items-center justify-center min-h-screen px-4 py-8">
-                        <div className="w-full max-w-md">
+                {shouldCenter ? 
+                    (
+                        // Centered layout for auth pages
+                        <div className="flex items-center justify-center min-h-screen px-4 py-8">
+                            <div className="w-full max-w-md">
+                                {children}
+                            </div>
+                        </div>
+                    ) : (
+                        // Full-width layout for other pages
+                        <div className="w-full">
                             {children}
                         </div>
-                    </div>
-                    ) : (
-                    // Full-width layout for other pages
-                    <div className="w-full">
-                        {children}
-                    </div>
-                )}
+                    )
+                }
             </main>
         </div>
     );
