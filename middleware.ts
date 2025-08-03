@@ -1,48 +1,58 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { clerkMiddleware } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+import { isPublicRoute, REDIRECTS } from "./utils/routeUtils";
 
-export const isPublicRoutes = createRouteMatcher([
-  "/sign-in",
-  "/sign-up",
-  "/forgot-password",
-]);
 
-const isPublicApiRoutes = createRouteMatcher([
-  "/api/webhook/register",
-]);
 
 export default clerkMiddleware(async (auth, req) => {
+
   const { userId } = await auth();
   const url = new URL(req.url);
   const pathname = url.pathname;
 
-  // --- Allow public API routes without redirect ---
-  if (isPublicApiRoutes(req)) {
+  try {
+    // ✅ 0. Skip middleware for the webhook endpoint (important for server-to-server calls)
+    if (pathname === "/api/webhook/register") {
+      return NextResponse.next();
+    }
+
+
+    // 1️⃣ Not logged in & route is protected → Redirect to /sign-in
+    if (!userId && !isPublicRoute(pathname)) {
+      return NextResponse.redirect(new URL(REDIRECTS.UNAUTHENTICATED, req.url));
+    }
+
+
+    // 2️⃣ Logged in:
+    if (userId) {
+      // Accessing root "/" → redirect to /home
+      if (pathname === "/") {
+        return NextResponse.redirect(new URL(REDIRECTS.AUTHENTICATED, req.url));
+      }
+
+      // Accessing sign-in, sign-up, or forgot-password → redirect to /home
+      if (REDIRECTS.AUTH_FORBIDDEN.includes(pathname)) {
+        return NextResponse.redirect(new URL(REDIRECTS.AUTHENTICATED, req.url));
+      }
+    }
+
+
+
+    // ✅ Allow normal flow
     return NextResponse.next();
-  }
 
-  // --- If NOT authenticated and accessing a protected route ---
-  if (!userId && !isPublicRoutes(req)) {
-    const redirectUrl = new URL("/sign-in", req.url);
-    redirectUrl.searchParams.set("redirectTo", pathname); // To return after login
-    return NextResponse.redirect(redirectUrl);
+  } catch (error) {
+    console.error("❌ Middleware error: ", error);
+    // Avoid showing sensitive info, redirect to error page
+    return NextResponse.redirect(new URL(REDIRECTS.ERROR, req.url));
   }
-
-  // --- If authenticated and accessing sign-in/sign-up ---
-  if (userId && isPublicRoutes(req)) {
-    // If they were trying to go somewhere before, redirect back
-    const redirectTo = url.searchParams.get("redirectTo") || "/"; 
-    return NextResponse.redirect(new URL(redirectTo, req.url));
-  }
-
-  return NextResponse.next();
 });
+
+
 
 export const config = {
   matcher: [
-    // Match all routes except static assets and Next.js internals
-    "/((?!_next|.*\\..*).*)",
-    // Match API routes as well
-    "/api/(.*)",
-  ],
+    "/((?!.+\\.[\\w]+$|_next|api/webhook/register).*)",
+    "/api/(.*)"
+  ]
 };

@@ -101,11 +101,11 @@ function SigninPage() {
                         <div className="mb-6">
                             <h1 className="text-3xl font-bold text-white mb-2">
                                 <span className="text-white font-bold drop-shadow-lg">
-                                    Create your account
+                                    Welcome Back
                                 </span>
                             </h1>
                             <p className="text-gray-400 text-sm font-medium">
-                                Unlock powerful tools for media processing and collaboration
+                                Seamlessly manage and transform your digital content
                             </p>
                         </div>  
                         
